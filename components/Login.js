@@ -63,7 +63,9 @@ export default class Login extends Component {
         <View>
           <Image
             style={styles.img}
-            source={require('../assets/the_code_project.png')}
+            source={{
+              uri: 'https://raw.githubusercontent.com/jonathangomz/react-login/master/assets/the_code_project.png'
+            }}
           />
         </View>
         <View style={styles.inputContainer}>
