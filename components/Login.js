@@ -64,7 +64,7 @@ export default class Login extends Component {
           <Image
             style={styles.img}
             source={{
-              uri: 'https://raw.githubusercontent.com/jonathangomz/react-login/master/assets/the_code_project.png'
+              uri: 'https://raw.githubusercontent.com/jonathangomz/react-login/master/assets/J_transparent.png'
             }}
           />
         </View>
@@ -72,7 +72,7 @@ export default class Login extends Component {
           <Ionicons
             name={'ios-contact'}
             size={28}
-            color={'rgba(255, 255, 255, 0.7)'}
+            color={'rgba(98, 182, 203, 0.7)'}
             style={styles.inputIcon}
           />
           <TextInput
@@ -80,7 +80,7 @@ export default class Login extends Component {
             onChangeText={(username) => this.setState({username})}
             style={styles.input}
             placeholder={'Username'}
-            placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
+            placeholderTextColor={'rgba(98, 182, 203, 0.7)'}
             underlineColorAndroid='transparent'
           />
         </View>
@@ -89,7 +89,7 @@ export default class Login extends Component {
           <Ionicons
             name={'ios-lock'}
             size={28}
-            color={'rgba(255, 255, 255, 0.7)'}
+            color={'rgba(98, 182, 203, 0.7)'}
             style={styles.inputIcon}
           />
           <TextInput
@@ -98,7 +98,7 @@ export default class Login extends Component {
             style={styles.input}
             placeholder={'Password'}
             secureTextEntry={this.state.showPass}
-            placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
+            placeholderTextColor={'rgba(98, 182, 203, 0.7)'}
             underlineColorAndroid='transparent'
           />
           <TouchableOpacity style={styles.btnEye}
@@ -106,7 +106,7 @@ export default class Login extends Component {
             <Ionicons
               name={this.state.press ? 'ios-eye-off' : 'ios-eye'}
               size={26}
-              color={'rgba(255, 255, 255, 0.7)'}
+              color={'rgba(98, 182, 203, 0.7)'}
             />
           </TouchableOpacity>
         </View>
@@ -127,12 +127,12 @@ const styles = StyleSheet.create({
     height: null,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#323232',
+    backgroundColor: '#053C5E',
   },
 
   img: {
     width: '20rem',
-    height: '20rem',
+    height: '10rem',
     marginBottom: 0
   },
 
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     width: WIDTH - 55,
     height: 45,
     borderRadius: 25,
-    backgroundColor: '#432577',
+    backgroundColor: '#1F7A8C',
     justifyContent: 'center',
     marginTop: 20
 
