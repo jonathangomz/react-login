@@ -4,21 +4,23 @@ const URL = 'https://jonathangomz-sso.glitch.me/';
 
 export default class LoginAPI {
 
-    login(username, password) {
+    async login(username, password) {
         if(!username){
-            return Promise.reject({message:'Missing username', token:null});
+            return {message:'Missing username', token:null};
         }
         else if(!password){
-            return Promise.reject({message:'Missing password', token:null});
+            return {message:'Missing password', token:null};
         }
         else {
-            return fetch(URL + 'login', {
+            const response = await fetch(URL + 'login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: 'username='+username+'&password='+password
             });
+
+            return await response.json();
         }
     }
 

@@ -1,123 +1,81 @@
-import React, { Component } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Dimensions, TouchableOpacity, Alert, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import LoginAPI from '../services/LoginAPI';
+import { AuthContext } from './AuthContext';
 
 const { width: WIDTH } = Dimensions.get('window');
 
-export default class Login extends Component {
-  constructor(props) {
-    super(props);
+export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [seePass, setSeePass] = useState({show: false, press: false});
 
-    this.state = {
-      username:undefined,
-      password:undefined,
-      showPass: true,
-      press: false
-    };
-  }
+  const { signIn } = useContext(AuthContext);
 
-  submit = () => {
-    const username = this.state.username;
-    const password = this.state.password;
-
-    this.api = new LoginAPI();
-
-    this.api.login(username, password)
-      .then(async res => {
-        if(res.ok)
-          return res.json();
-        throw await res.json();
-      })
-      .then(data => data.token ? this.api.storeToken(data.token) : data.message)
-      .catch(err => {
-        console.log(err);
-        this.alert(err.message);
-      });
-  };
-
-  showPass = () => {
-    if(this.state.showPass)
-      this.setState({ showPass: false, press: true });
+  const showPass = () => {
+    if(seePass.show)
+      setSeePass({ show: false, press: true });
     else
-      this.setState({ showPass: true, press: false });
+      setSeePass({ show: true, press: false });
   };
 
-  alert = (message) => {
-    Alert.alert(
-      'Error on login',
-      message,
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        }
-      ],
-      {cancelable: false},
-    );
-  };
+  return (
+    <View style={styles.container}>
+      <View>
+        <Image
+          style={styles.img}
+          source={{
+            uri: 'https://raw.githubusercontent.com/jonathangomz/react-login/master/assets/J_transparent.png'
+          }}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Ionicons
+          name={'ios-contact'}
+          size={28}
+          color={'rgba(98, 182, 203, 0.7)'}
+          style={styles.inputIcon}
+        />
+        <TextInput
+          onChangeText={(username) => setUsername(username)}
+          style={styles.input}
+          placeholder={'Username'}
+          placeholderTextColor={'rgba(98, 182, 203, 0.7)'}
+          underlineColorAndroid='transparent'
+        />
+      </View>
 
-  render () {
-    return (
-      <View style={styles.container}>
-        <View>
-          <Image
-            style={styles.img}
-            source={{
-              uri: 'https://raw.githubusercontent.com/jonathangomz/react-login/master/assets/J_transparent.png'
-            }}
-          />
-        </View>
-        <View style={styles.inputContainer}>
+      <View style={styles.inputContainer}>
+        <Ionicons
+          name={'ios-lock'}
+          size={28}
+          color={'rgba(98, 182, 203, 0.7)'}
+          style={styles.inputIcon}
+        />
+        <TextInput
+          onChangeText={(password) => setPassword(password)}
+          style={styles.input}
+          placeholder={'Password'}
+          secureTextEntry={seePass.show}
+          placeholderTextColor={'rgba(98, 182, 203, 0.7)'}
+          underlineColorAndroid='transparent'
+        />
+        <TouchableOpacity style={styles.btnEye}
+          onPress={showPass.bind(this)}>
           <Ionicons
-            name={'ios-contact'}
-            size={28}
+            name={seePass.press ? 'ios-eye-off' : 'ios-eye'}
+            size={26}
             color={'rgba(98, 182, 203, 0.7)'}
-            style={styles.inputIcon}
           />
-          <TextInput
-            ref={(el) => {this.username = el;}}
-            onChangeText={(username) => this.setState({username})}
-            style={styles.input}
-            placeholder={'Username'}
-            placeholderTextColor={'rgba(98, 182, 203, 0.7)'}
-            underlineColorAndroid='transparent'
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Ionicons
-            name={'ios-lock'}
-            size={28}
-            color={'rgba(98, 182, 203, 0.7)'}
-            style={styles.inputIcon}
-          />
-          <TextInput
-            ref={(el) => {this.password = el;}}
-            onChangeText={(password) => this.setState({password})}
-            style={styles.input}
-            placeholder={'Password'}
-            secureTextEntry={this.state.showPass}
-            placeholderTextColor={'rgba(98, 182, 203, 0.7)'}
-            underlineColorAndroid='transparent'
-          />
-          <TouchableOpacity style={styles.btnEye}
-            onPress={this.showPass.bind(this)}>
-            <Ionicons
-              name={this.state.press ? 'ios-eye-off' : 'ios-eye'}
-              size={26}
-              color={'rgba(98, 182, 203, 0.7)'}
-            />
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity style={styles.btnLogin}
-          onPress={this.submit.bind(this)}>
-          <Text style={styles.text}> Login </Text>
         </TouchableOpacity>
       </View>
-    );
-  };
+
+      <TouchableOpacity style={styles.btnLogin}
+        onPress={() => signIn(username, password)}>
+        <Text style={styles.text}> Login </Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -131,8 +89,8 @@ const styles = StyleSheet.create({
   },
 
   img: {
-    width: '20rem',
-    height: '10rem',
+    width: 300,
+    height: 200,
     marginBottom: 0
   },
 
